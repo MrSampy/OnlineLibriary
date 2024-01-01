@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{98C4A4D4-EB7B-4A2C-9A1F-358249EC980E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineLibriaryTests", "OnlineLibriaryTests\OnlineLibriaryTests.csproj", "{39553E8D-882E-400D-BE02-17D254BA8E15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineLibriary.Tests", "OnlineLibriaryTests\OnlineLibriary.Tests.csproj", "{39553E8D-882E-400D-BE02-17D254BA8E15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
