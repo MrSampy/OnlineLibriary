@@ -34,4 +34,4 @@ jobs:
       working-directory: OnlineLibriary/
     - name: Test
       run: dotnet test --no-build --verbosity normal
-      working-directory: OnlineLibriary/OnlineLibriary.Tests/
+      working-directory: OnlineLibriary/OnlineLibriaryTests/
