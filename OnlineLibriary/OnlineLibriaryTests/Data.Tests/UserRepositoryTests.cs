@@ -38,9 +38,9 @@ namespace OnlineLibriaryTests.Data.Tests
             // Assert
             Assert.IsNotNull(actualUser);
             Assert.AreEqual(expectedUser.Id, actualUser.Id);
+            Assert.AreEqual(expectedUser.Username, actualUser.Username);
             Assert.AreEqual(expectedUser.FirstName, actualUser.FirstName);
             Assert.AreEqual(expectedUser.LastName, actualUser.LastName);
-            Assert.AreEqual(expectedUser.DateOfRegistration.ToString("dd.MM.yyyy"), actualUser.DateOfRegistration.ToString("dd.MM.yyyy"));
             Assert.AreEqual(expectedUser.Email, actualUser.Email);
         }
 
@@ -51,9 +51,9 @@ namespace OnlineLibriaryTests.Data.Tests
             var repository = TestUtilities.CreateRepository<User>();
             var newUser = new User
             {
+                Username = "newuser",
                 FirstName = "New",
                 LastName = "User",
-                DateOfRegistration = DateTime.Now,
                 Email = "newuser@example.com",
                 Password = "password123",
                 ProfilePicture = new byte[0]
@@ -68,7 +68,7 @@ namespace OnlineLibriaryTests.Data.Tests
             Assert.IsNotNull(addedUser);
             Assert.AreEqual(newUser.FirstName, addedUser.FirstName);
             Assert.AreEqual(newUser.LastName, addedUser.LastName);
-            Assert.AreEqual(newUser.DateOfRegistration.ToString("dd.MM.yyyy"), addedUser.DateOfRegistration.ToString("dd.MM.yyyy"));
+            Assert.AreEqual(newUser.Username, addedUser.Username);
             Assert.AreEqual(newUser.Email, addedUser.Email);
         }
 

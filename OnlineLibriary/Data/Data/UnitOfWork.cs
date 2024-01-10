@@ -33,9 +33,9 @@ namespace Data.Data
             this.dbContext = dBContext;
         }
 
-        public Task SaveAsync()
+        public async Task SaveAsync()
         {
-            throw new NotImplementedException();
+            await dbContext.SaveChangesAsync();
         }
     }
 }

@@ -3,7 +3,7 @@ using Data.Repositories;
 
 namespace Data.Interfaces
 {
-    internal interface IUnitOfWork
+    public interface IUnitOfWork
     {        
         Repository<Author> AuthorRepository { get; }
         Repository<Book> BookRepository { get; }

@@ -1,7 +1,13 @@
-﻿using Data.Data;
+﻿using AutoMapper;
+using BusinessLogic.Interfaces;
+using BusinessLogic.Services;
+using BusinessLogic.Utils;
+using Data.Data;
 using Data.Entities;
+using Data.Interfaces;
 using Data.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
@@ -13,6 +19,21 @@ namespace OnlineLibriaryTests.Utils
 {
     public class TestUtilities
     {
+        public static IMapper CreateMapper()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<AutomapperProfile>();
+            });
+            return config.CreateMapper();
+        }
+
+        public static ICacheService CreateCacheService()
+        {
+            IMemoryCache memoryCache = new MemoryCache(new MemoryCacheOptions());
+            var cacheService = new CacheService(memoryCache);
+            return cacheService;
+        }
         public static Repository<T> CreateRepository<T>() where T : BaseEntity
         {
             var context = new OnlineLibriaryDBContext(new DbContextOptionsBuilder<OnlineLibriaryDBContext>()
@@ -21,6 +42,19 @@ namespace OnlineLibriaryTests.Utils
             SeedData(context);
             return new Repository<T>(context);
         }
+        public static IUnitOfWork CreateUnitOfWork()
+        {
+            var context = new OnlineLibriaryDBContext(new DbContextOptionsBuilder<OnlineLibriaryDBContext>()
+                .EnableSensitiveDataLogging()
+                .UseInMemoryDatabase(databaseName: "Test_Database").Options, ensureDeleted: true);
+            SeedData(context);
+            return new UnitOfWork(context);
+        }
+
+        public static ISecurePasswordHasher CreateSecurePasswordHasher()
+        {
+            return new SecurePasswordHasher();
+        }
 
         public static void SeedData(OnlineLibriaryDBContext context)
         {
@@ -28,10 +62,12 @@ namespace OnlineLibriaryTests.Utils
             var authors = CreateAuthors();
             var books = CreateBooks();
             var users = CreateUsers();
+            var securePasswordHasher = new SecurePasswordHasher();
 
-            for(int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 users[i].Books.Add(books[i]);
+                users[i].Password = securePasswordHasher.Hash(users[i].Password);
             }
 
             context.Genres.AddRange(genres);
@@ -83,7 +119,7 @@ namespace OnlineLibriaryTests.Utils
                     AuthorId = i,
                     GenreId = i,
                     Year = DateTime.Now.Year,
-                    BookContent = new byte[0]
+                    BookContent = Array.Empty<byte>()
                 });
             }
             return result;
@@ -96,13 +132,13 @@ namespace OnlineLibriaryTests.Utils
                 result.Add(new User
                 {
                     Id = i,
+                    Username = $"Username{i}",
                     FirstName = $"FirstName{i}",
                     LastName = $"LastName{i}",
-                    Email = $"Email{i}",
+                    Email = $"email{i}@gmail.com",
                     Password = $"Password{i}",
-                    DateOfRegistration = DateTime.Now,
                     Books = new List<Book>(),
-                    ProfilePicture = new byte[0]
+                    ProfilePicture = Array.Empty<byte>()
                 });
             }
             return result;

@@ -20,11 +20,11 @@ namespace Data.Repositories
         {
             TEntity entityToUpdate = await Context.Set<TEntity>().FirstAsync(x => x.Id.Equals(entity.Id));
 
-            entityToUpdate = entity;
+            Context.Entry(entityToUpdate).CurrentValues.SetValues(entity);
 
             return entity;
         }
-
+            
         public async Task AddAsync(TEntity entity)
         {
             await Context.Set<TEntity>().AddAsync(entity);
