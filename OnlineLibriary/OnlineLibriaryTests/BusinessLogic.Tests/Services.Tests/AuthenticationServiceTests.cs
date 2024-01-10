@@ -2,8 +2,6 @@
 using BusinessLogic.Models;
 using BusinessLogic.Services;
 using BusinessLogic.Validation;
-using Moq;
-
 namespace OnlineLibriary.Tests.BusinessLogic.Tests.Services.Tests
 {
     [TestClass]
