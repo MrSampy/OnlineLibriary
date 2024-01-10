@@ -1,4 +1,6 @@
-﻿using Data.Entities;
+﻿using BusinessLogic.Models;
+using BusinessLogic.Utils;
+using Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,7 @@ namespace OnlineLibriaryTests.Utils.Compareres
     {
         public bool Equals(User x, User y)
         {
+            SecurePasswordHasher securePasswordHasher = new SecurePasswordHasher();
             if (x == null && y == null)
                 return true;
             if (x == null || y == null)
@@ -19,9 +22,8 @@ namespace OnlineLibriaryTests.Utils.Compareres
             return x.Id == y.Id &&
                    x.FirstName == y.FirstName &&
                    x.LastName == y.LastName &&
-                   x.DateOfRegistration.ToString("dd.MM.yyyy") == y.DateOfRegistration.ToString("dd.MM.yyyy") &&
                    x.Email == y.Email &&
-                   x.Password == y.Password &&
+                   securePasswordHasher.Verify(x.Password, y.Password) &&
                    ProfilePicturesEqual(x.ProfilePicture, y.ProfilePicture);
         }
 
