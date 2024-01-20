@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Models;
+using BusinessLogic.Models.DTOs;
 using BusinessLogic.Utils;
 using Data.Entities;
 using System;
@@ -21,12 +22,25 @@ namespace OnlineLibriaryTests.Utils.Compareres
 
             return x.Id == y.Id &&
                    x.FirstName == y.FirstName &&
-                   x.LastName == y.LastName &&
+                   x.SurName == y.SurName &&
                    x.Email == y.Email &&
                    securePasswordHasher.Verify(x.Password, y.Password) &&
                    ProfilePicturesEqual(x.ProfilePicture, y.ProfilePicture);
         }
+        public bool Equals(UserDTO x, User y)
+        {
+            SecurePasswordHasher securePasswordHasher = new SecurePasswordHasher();
+            if (x == null && y == null)
+                return true;
+            if (x == null || y == null)
+                return false;
 
+            return x.Id == y.Id &&
+                   x.FullName == $"{y.FirstName} {y.SurName}" &&
+                   x.Email == y.Email &&
+                   securePasswordHasher.Verify(y.Password, x.Password) &&
+                   ProfilePicturesEqual(x.ProfilePicture, y.ProfilePicture);
+        }
         public int GetHashCode(User obj)
         {
             return obj.Id.GetHashCode();
