@@ -23,13 +23,13 @@ namespace BusinessLogic.Utils
                 .ForMember(dest => dest.BookIds,
                     opt => opt.MapFrom(src => src.Books.Select(x => x.Id)))
                 .ForMember(dest => dest.FullName,
-                    opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
+                    opt => opt.MapFrom(src => src.FirstName + " " + src.SurName));
             CreateMap<AuthorDTO, Author>()
                 .ForMember(dest => dest.Books,
                     opt => opt.Ignore())
                 .ForMember(dest => dest.FirstName,
                     opt => opt.MapFrom(src => src.FullName.Split().First()))
-                .ForMember(dest => dest.LastName,
+                .ForMember(dest => dest.SurName,
                     opt => opt.MapFrom(src => src.FullName.Split().Last()));
             CreateMap<Book, BookDTO>()
                 .ForMember(dest => dest.UserIds,
@@ -41,13 +41,13 @@ namespace BusinessLogic.Utils
                 .ForMember(dest => dest.BookIds,
                     opt => opt.MapFrom(src => src.Books.Select(x => x.Id)))
                 .ForMember(dest => dest.FullName,
-                    opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
+                    opt => opt.MapFrom(src => src.FirstName + " " + src.SurName));
             CreateMap<UserDTO, User>()
                 .ForMember(dest => dest.Books,
                     opt => opt.Ignore())
                 .ForMember(dest => dest.FirstName,
                     opt => opt.MapFrom(src => src.FullName.Split().First()))
-                .ForMember(dest => dest.LastName,
+                .ForMember(dest => dest.SurName,
                     opt => opt.MapFrom(src => src.FullName.Split().Last()));
         }
     }

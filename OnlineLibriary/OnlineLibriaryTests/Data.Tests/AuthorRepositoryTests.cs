@@ -36,7 +36,7 @@ namespace OnlineLibriaryTests.Data.Tests
             Assert.IsNotNull(actualAuthor);
             Assert.AreEqual(expectedAuthor.Id, actualAuthor.Id);
             Assert.AreEqual(expectedAuthor.FirstName, actualAuthor.FirstName);
-            Assert.AreEqual(expectedAuthor.LastName, actualAuthor.LastName);
+            Assert.AreEqual(expectedAuthor.SurName, actualAuthor.SurName);
             Assert.AreEqual(expectedAuthor.DateOfBirth.ToString("dd.MM.yyyy"), actualAuthor.DateOfBirth.ToString("dd.MM.yyyy"));
         }
 
@@ -45,7 +45,7 @@ namespace OnlineLibriaryTests.Data.Tests
         {
             // Arrange
             var repository = TestUtilities.CreateRepository<Author>();
-            var newAuthor = new Author { FirstName = "New", LastName = "Author", DateOfBirth = DateTime.Now, Country = "Country11"};
+            var newAuthor = new Author { FirstName = "New", SurName = "Author", DateOfBirth = DateTime.Now, Country = "Country11"};
 
             // Act
             await repository.AddAsync(newAuthor);
@@ -56,7 +56,7 @@ namespace OnlineLibriaryTests.Data.Tests
             Assert.IsNotNull(addedAuthor);
             Assert.AreEqual(newAuthor.Id, addedAuthor.Id);
             Assert.AreEqual(newAuthor.FirstName, addedAuthor.FirstName);
-            Assert.AreEqual(newAuthor.LastName, addedAuthor.LastName);
+            Assert.AreEqual(newAuthor.SurName, addedAuthor.SurName);
             Assert.AreEqual(newAuthor.DateOfBirth.ToString("dd.MM.yyyy"), addedAuthor.DateOfBirth.ToString("dd.MM.yyyy"));
         }
 

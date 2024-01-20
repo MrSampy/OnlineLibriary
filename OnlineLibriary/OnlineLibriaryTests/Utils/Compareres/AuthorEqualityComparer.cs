@@ -1,4 +1,5 @@
-﻿using Data.Entities;
+﻿using BusinessLogic.Models.DTOs;
+using Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +19,22 @@ namespace OnlineLibriaryTests.Utils.Compareres
 
             return x.Id == y.Id &&
                    x.FirstName == y.FirstName &&
-                   x.LastName == y.LastName &&
+                   x.SurName == y.SurName &&
                    x.DateOfBirth.ToString("dd.MM.yyyy") == y.DateOfBirth.ToString("dd.MM.yyyy") &&
                    x.Country == y.Country;
         }
+        public bool Equals(AuthorDTO x, Author y)
+        {
+            if (x == null && y == null)
+                return true;
+            if (x == null || y == null)
+                return false;
 
+            return x.Id == y.Id && 
+                   x.FullName == $"{y.FirstName} {y.SurName}" &&
+                   x.DateOfBirth.ToString("dd.MM.yyyy") == y.DateOfBirth.ToString("dd.MM.yyyy") &&
+                   x.Country == y.Country;
+        }
         public int GetHashCode(Author obj)
         {
             return obj.Id.GetHashCode();

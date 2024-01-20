@@ -1,4 +1,5 @@
-﻿using Data.Entities;
+﻿using BusinessLogic.Models.DTOs;
+using Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,21 @@ namespace OnlineLibriaryTests.Utils.Compareres
                    x.GenreId == y.GenreId;
         }
 
+        public bool Equals(BookDTO x, Book y) 
+        {
+            if (x == null && y == null)
+                return true;
+            if (x == null || y == null)
+                return false;
+
+            return x.Id == y.Id &&
+                   x.Title == y.Title &&
+                   x.Description == y.Description &&
+                   x.Year == y.Year &&
+                   BookContentEqual(x.BookContent, y.BookContent) &&
+                   x.AuthorId == y.AuthorId &&
+                   x.GenreId == y.GenreId;
+        }
         public int GetHashCode(Book obj)
         {
             return obj.Id.GetHashCode();

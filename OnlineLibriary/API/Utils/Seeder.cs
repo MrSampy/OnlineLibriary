@@ -1,61 +1,11 @@
-﻿using AutoMapper;
-using BusinessLogic.Interfaces;
-using BusinessLogic.Services;
-using BusinessLogic.Utils;
+﻿using BusinessLogic.Utils;
 using Data.Data;
 using Data.Entities;
-using Data.Interfaces;
-using Data.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace OnlineLibriaryTests.Utils
+namespace API.Utils
 {
-    public class TestUtilities
+    public static class Seeder
     {
-        public static IMapper CreateMapper()
-        {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<AutomapperProfile>();
-            });
-            return config.CreateMapper();
-        }
-
-        public static ICacheService CreateCacheService()
-        {
-            IMemoryCache memoryCache = new MemoryCache(new MemoryCacheOptions());
-            var cacheService = new CacheService(memoryCache);
-            return cacheService;
-        }
-        public static Repository<T> CreateRepository<T>() where T : BaseEntity
-        {
-            var context = new OnlineLibriaryDBContext(new DbContextOptionsBuilder<OnlineLibriaryDBContext>()
-                .EnableSensitiveDataLogging()
-                .UseInMemoryDatabase(databaseName: "Test_Database").Options, ensureDeleted: true);
-            SeedData(context);
-            return new Repository<T>(context);
-        }
-        public static IUnitOfWork CreateUnitOfWork()
-        {
-            var context = new OnlineLibriaryDBContext(new DbContextOptionsBuilder<OnlineLibriaryDBContext>()
-                .EnableSensitiveDataLogging()
-                .UseInMemoryDatabase(databaseName: "Test_Database").Options, ensureDeleted: true);
-            SeedData(context);
-            return new UnitOfWork(context);
-        }
-
-        public static ISecurePasswordHasher CreateSecurePasswordHasher()
-        {
-            return new SecurePasswordHasher();
-        }
-
         public static void SeedData(OnlineLibriaryDBContext context)
         {
             var genres = CreateGenres();
@@ -77,7 +27,7 @@ namespace OnlineLibriaryTests.Utils
             context.SaveChanges();
         }
 
-        public static List<Genre> CreateGenres() 
+        public static List<Genre> CreateGenres()
         {
             var result = new List<Genre>();
             for (int i = 1; i <= 10; i++)

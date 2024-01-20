@@ -22,7 +22,9 @@ namespace Data.Repositories
 
             Context.Entry(entityToUpdate).CurrentValues.SetValues(entity);
 
-            return entity;
+            entityToUpdate = entity;
+
+            return entityToUpdate;
         }
             
         public async Task AddAsync(TEntity entity)
