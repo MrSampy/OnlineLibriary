@@ -106,6 +106,7 @@ namespace BusinessLogic.Services
             }
 
             _cacheService.Reset();
+            model.Password = _passwordHasher.Hash(model.Password);
             var result = await _unitOfWork.UserRepository.UpdateAsync(await AddDependenciesAsync(model));
             await _unitOfWork.SaveAsync();
             return _mapper.Map<UserDTO>(result);
