@@ -99,7 +99,7 @@ namespace OnlineLibriaryTests.Utils
                 {
                     Id = i,
                     FirstName = $"FirstName{i}",
-                    LastName = $"LastName{i}",
+                    SurName = $"SurName{i}",
                     Country = $"Country{i}",
                     DateOfBirth = DateTime.Now
                 });
@@ -134,7 +134,7 @@ namespace OnlineLibriaryTests.Utils
                     Id = i,
                     Username = $"Username{i}",
                     FirstName = $"FirstName{i}",
-                    LastName = $"LastName{i}",
+                    SurName = $"SurName{i}",
                     Email = $"email{i}@gmail.com",
                     Password = $"Password{i}",
                     Books = new List<Book>(),
