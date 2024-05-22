@@ -16,7 +16,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Net.Mime;
 using System.Text;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-
+using Microsoft.Extensions.Logging.Debug;
 namespace API
 {
     public class Startup
@@ -30,59 +30,70 @@ namespace API
         public void ConfigureServices(IServiceCollection services) 
         {
             #region Database
-            /*string connection = Configuration.GetConnectionString("PostgreSQLConnection2")!;
 
-            var optionsBuilder = new DbContextOptionsBuilder<OnlineLibriaryDBContext>().UseNpgsql(connection, sqlServerOptions => sqlServerOptions.EnableRetryOnFailure());
+            var isLocal = true;
 
-            var options = optionsBuilder.Options;
-
-            using (var context = new OnlineLibriaryDBContext(options))
+            if (isLocal)
             {
-                var canConnect = false;
+                var context = new OnlineLibriaryDBContext(new DbContextOptionsBuilder<OnlineLibriaryDBContext>()
+                              .EnableSensitiveDataLogging()
+                              .UseInMemoryDatabase(databaseName: "Test_Database").Options, ensureDeleted: true);
 
-                try
-                {
-                    canConnect = context.Database.CanConnect();
+                Seeder.SeedData(context);
 
-                    context.Users.FirstOrDefault();
-                    context.Books.FirstOrDefault();
-                    context.Authors.FirstOrDefault();
-                    context.Genres.FirstOrDefault();
-                }
-                catch
-                {
-                    canConnect = false;
-                }
+                var unitOfWork = new UnitOfWork(context);
 
-                if (!canConnect)
+                services.AddSingleton<IUnitOfWork>(x => unitOfWork);
+
+                services.AddDbContext<OnlineLibriaryDBContext>(options =>
                 {
-                    context.Database.EnsureCreated();
-                    SeedData(context);
-                }
+                    options.UseInMemoryDatabase("Test_Database");
+                });
+
+                services.AddSingleton<IUnitOfWork>(x => unitOfWork);
             }
-
-            var unitOfWork = new UnitOfWork(new OnlineLibriaryDBContext(options));
-
-            services.AddDbContext<OnlineLibriaryDBContext>(options =>
+            else 
             {
-                options.UseNpgsql(connection, sqlServerOptions => sqlServerOptions.EnableRetryOnFailure());
-            });
-            */
+                string connection = Configuration.GetConnectionString("PostgreSQLConnection")!;
 
-            var context = new OnlineLibriaryDBContext(new DbContextOptionsBuilder<OnlineLibriaryDBContext>()
-                           .EnableSensitiveDataLogging()
-                           .UseInMemoryDatabase(databaseName: "Test_Database").Options, ensureDeleted: true);
+                var optionsBuilder = new DbContextOptionsBuilder<OnlineLibriaryDBContext>().UseNpgsql(connection, sqlServerOptions => sqlServerOptions.EnableRetryOnFailure());
 
-            Seeder.SeedData(context);
+                var options = optionsBuilder.Options;
 
-            var unitOfWork = new UnitOfWork(context);
+                using (var context = new OnlineLibriaryDBContext(options))
+                {
+                    var canConnect = false;
 
-            services.AddSingleton<IUnitOfWork>(x => unitOfWork);
+                    try
+                    {
+                        canConnect = context.Database.CanConnect();
 
-            services.AddDbContext<OnlineLibriaryDBContext>(options =>
-            {
-                options.UseInMemoryDatabase("Test_Database");
-            });
+                        context.Users.FirstOrDefault();
+                        context.Books.FirstOrDefault();
+                        context.Authors.FirstOrDefault();
+                        context.Genres.FirstOrDefault();
+                    }
+                    catch
+                    {
+                        canConnect = false;
+                    }
+
+                    if (!canConnect)
+                    {
+                        context.Database.EnsureCreated();
+                        Seeder.SeedData(context);
+                    }
+                }
+
+                var unitOfWork = new UnitOfWork(new OnlineLibriaryDBContext(options));
+
+                services.AddDbContext<OnlineLibriaryDBContext>(options =>
+                {
+                    options.UseNpgsql(connection, sqlServerOptions => sqlServerOptions.EnableRetryOnFailure());
+                });
+
+                services.AddSingleton<IUnitOfWork>(x => unitOfWork);
+            }
 
             #endregion
 

@@ -1,0 +1,17 @@
+﻿version: '3'
+services:
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "7034:80" 
+      - "5296:80"
+    depends_on:
+      - postgresql-server
+  postgresql-server:
+    container_name: postgresql-server
+    build:
+      context: .
+      dockerfile: sql.Dockerfile

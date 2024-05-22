@@ -16,7 +16,7 @@ namespace API.Utils
             var builder = new DbContextOptionsBuilder<OnlineLibriaryDBContext>();
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-            builder.UseNpgsql(connectionString, sqlServerOptions => sqlServerOptions.EnableRetryOnFailure());
+            builder.UseNpgsql(connectionString, sqlServerOptions => sqlServerOptions.EnableRetryOnFailure().MigrationsAssembly("API"));
 
             return new OnlineLibriaryDBContext(builder.Options);
         }

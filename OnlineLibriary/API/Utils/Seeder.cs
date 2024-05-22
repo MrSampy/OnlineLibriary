@@ -14,18 +14,19 @@ namespace API.Utils
             var users = CreateUsers();
             var securePasswordHasher = new SecurePasswordHasher();
 
-            for (int i = 0; i < 10; i++)
-            {
-                users[i].Books.Add(books[i]);
-                users[i].Password = securePasswordHasher.Hash(users[i].Password);
-            }
-
             context.Genres.AddRange(genres);
             context.Authors.AddRange(authors);
             context.Books.AddRange(books);
             context.Users.AddRange(users);
+
+            for (int i = 0; i < 10; i++)
+            {
+                users[i].Password = securePasswordHasher.Hash(users[i].Password);
+            }
+
             context.SaveChanges();
         }
+
 
         public static List<Genre> CreateGenres()
         {
@@ -51,7 +52,7 @@ namespace API.Utils
                     FirstName = $"FirstName{i}",
                     SurName = $"SurName{i}",
                     Country = $"Country{i}",
-                    DateOfBirth = DateTime.Now
+                    DateOfBirth = DateTime.Now.ToUniversalTime()
                 });
             }
             return result;
@@ -87,7 +88,6 @@ namespace API.Utils
                     SurName = $"SurName{i}",
                     Email = $"email{i}@gmail.com",
                     Password = $"Password{i}",
-                    Books = new List<Book>(),
                     ProfilePicture = Array.Empty<byte>()
                 });
             }
