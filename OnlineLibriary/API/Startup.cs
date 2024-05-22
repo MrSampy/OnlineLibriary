@@ -31,7 +31,7 @@ namespace API
         {
             #region Database
 
-            var isLocal = false;
+            var isLocal = true;
 
             if (isLocal)
             {

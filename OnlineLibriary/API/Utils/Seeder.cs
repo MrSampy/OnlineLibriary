@@ -21,12 +21,6 @@ namespace API.Utils
 
             for (int i = 0; i < 10; i++)
             {
-                context.UserBooks.Add(new UserBook
-                {
-                    BookId = books[i].Id,
-                    UserId = users[i].Id
-                });
-
                 users[i].Password = securePasswordHasher.Hash(users[i].Password);
             }
 
