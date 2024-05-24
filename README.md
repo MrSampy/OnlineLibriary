@@ -12,7 +12,7 @@ Website that offers ability to publish and read books. This project aims to addr
     - Hashed password with salt.
 
 ## Architecture
-![Image1](./OnlineLibriary/lmages/photo_2023-06-03_19-55-37.jpg)
+![Image1](./OnlineLibriary/Images/photo_2023-06-03_19-55-37.jpg)
 
 ## CI/CD
 [![.NET](https://github.com/MrSampy/OnlineLibriary/actions/workflows/dotnet.yml/badge.svg)](https://github.com/MrSampy/OnlineLibriary/actions/workflows/dotnet.yml)</br>
